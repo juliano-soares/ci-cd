@@ -1,8 +1,8 @@
 import { Player } from "../models/player";
 
 // Method to create player
-function playerCreate({ id, name}: Player): Player {
-    let player: Player = new Player();
+function playerCreate({ name }: Player): Player {
+    const player: Player = new Player();
     player.id = "1";
     player.name = name;
     
