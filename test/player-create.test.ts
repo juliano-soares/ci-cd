@@ -1,21 +1,19 @@
 import { Player } from "../src/models/player";
 import { playerCreate } from "../src/services/player-create";
 
-describe("Create player", () => {
-    it("create a player", () => {
+describe("Player Create", () => {
+  it("create a Player", () => {
+    // Arrange
+    const name: string = "John Doe";
+    
+    const player = new Player();
+    player.name = name;
+    player.id = "1";
 
-        // Arrange
-        const id: string = "1";
-        const name: string = "John Doe";
+    // Act
+    const playerCreateFunction = playerCreate(player);
 
-        const player = new Player();
-        player.id = id;
-        player.name = name;
-
-        // Act
-        const playerCreateFunction = playerCreate({ id, name });
-
-        // Assert
-        expect(playerCreateFunction).toEqual(player);
-    });
+    // Assert
+    expect(playerCreateFunction).toEqual(player);
+  });
 });
