@@ -1,4 +1,15 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-git diff HEAD --quiet && npm run test && npm run lint-staged
+echo "Starting pre-push hook"
+
+git diff HEAD --quiet
+if [ $? -ne 0 ]; then
+  echo "Uncommitted changes found"
+fi
+
+echo "Running tests"
+yarn test
+
+echo "Running lint-staged"
+yarn lint-staged
