@@ -3,13 +3,24 @@
 
 echo "Starting pre-push hook"
 
+# Check for uncommitted changes
 git diff HEAD --quiet
 if [ $? -ne 0 ]; then
   echo "Uncommitted changes found"
 fi
 
-echo "Running tests"
-yarn test
+# Run tests and calculate coverage
+coverage=$(yarn test:coverage | grep 'Coverage threshold:' | awk '{print $3}' | sed 's/%//')
+required_coverage=80
 
+if [ "$coverage" -lt "$required_coverage" ]; then
+  echo "Coverage below $required_coverage%. Aborting push."
+  exit 1
+fi
+
+# Run lint-staged
 echo "Running lint-staged"
 yarn lint-staged
+
+# Continue with the push if all checks pass
+exit 0
